@@ -8,7 +8,7 @@ import (
 func assertFloat(t *testing.T, got, want float64) {
 	t.Helper()
 
-	if math.Abs(got-want) > 0.000001 {
+	if math.IsNaN(got) || math.IsInf(got, 0) || math.Abs(got-want) > 0.000001 {
 		t.Fatalf("got %v, want %v", got, want)
 	}
 }

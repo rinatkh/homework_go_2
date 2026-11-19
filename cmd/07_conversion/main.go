@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/rinatsm/go-course/homework2/internal/conversion"
+	"github.com/rinatkh/homework_go_2/internal/conversion"
 )
 
 func main() {

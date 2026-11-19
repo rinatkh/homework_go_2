@@ -71,7 +71,8 @@ build: ## Собрать все main в bin/
 	$(GO) build -o bin/10_profile ./cmd/10_profile
 	$(GO) build -o bin/11_order ./cmd/11_order
 
-package: build ## Упаковать собранные бинарники в tar.gz
+package: ## Упаковать Linux/amd64 независимо от платформы запуска
+	$(MAKE) build GOOS=linux GOARCH=amd64
 	tar -czf bin/$(PACKAGE_NAME).tar.gz \
 		-C bin \
 		01_integer \
@@ -169,3 +170,23 @@ test-order: ## Unit-тесты пакета internal/order
 	$(GO) test ./internal/order
 
 ci: deps-check mod-check fmt-check vet test-unit test-integration test-race coverage-check build package ## Полная локальная проверка как в CI
+# BASIC проверяет точные имена отдельно в каждом пакете.
+.PHONY: starter-check test-basic test-basic-race ci-basic
+BASIC_TEST_FLAGS ?=
+
+starter-check: fmt-check vet compile ## Проверить структуру starter без принятия TODO
+
+test-basic: ## Проверить 24 обязательные функции
+	$(GO) test $(BASIC_TEST_FLAGS) ./internal/integer -run '^(TestAdd|TestDivide|TestRemainder|TestIsEven|TestCountPages|TestCountPagesBoundaries)$$'
+	$(GO) test $(BASIC_TEST_FLAGS) ./internal/basesbytes -run '^(TestMaxByte|TestFormatDecimal|TestFormatBinary)$$'
+	$(GO) test $(BASIC_TEST_FLAGS) ./internal/float -run '^(TestAddTax|TestAverage)$$'
+	$(GO) test $(BASIC_TEST_FLAGS) ./internal/boolean -run '^(TestCanEnter|TestCanRest|TestIsLeapYear)$$'
+	$(GO) test $(BASIC_TEST_FLAGS) ./internal/text -run '^(TestByteLen|TestRuneLen|TestNormalizeEmail|TestReplaceFirstRune|TestRuneLenCodePoints)$$'
+	$(GO) test $(BASIC_TEST_FLAGS) ./internal/constants -run '^(TestMaxAttempts|TestStatusText)$$'
+	$(GO) test $(BASIC_TEST_FLAGS) ./internal/conversion -run '^(TestParseAndDouble|TestSumIntAndInt64)$$'
+	$(GO) test $(BASIC_TEST_FLAGS) ./internal/pointers -run '^(TestValueOrDefault|TestIncrement|TestNewInt)$$'
+
+test-basic-race: ## Проверить BASIC с race detector
+	$(MAKE) test-basic BASIC_TEST_FLAGS=-race
+
+ci-basic: deps-check mod-check starter-check test-basic test-basic-race build ## Принять обязательный объём

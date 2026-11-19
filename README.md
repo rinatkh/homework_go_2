@@ -42,12 +42,26 @@ homework_go_2
 
 Логику нужно писать в функциях внутри `internal/<topic>`.
 
+## Объём и стартовое состояние
+
+123 функции: BASIC — 24 обязательных, PRACTICE — 88 дополнительных, CHALLENGE — 11 повышенной сложности. Ещё семь TODO-групп констант; BASIC использует две из них. Классификация каждой функции находится в [docs/task.md](docs/task.md). Все TODO остаются для самостоятельного решения.
+
+Go 1.22+, Make, Git. Module: `github.com/rinatkh/homework_go_2`. От classroom нет импортов. Starter компилируется, а функциональные тесты должны показывать отсутствие реализации.
+
+```bash
+make starter-check
+make test-basic
+make ci-basic
+```
+
+Первый вызов должен пройти, два следующих станут зелёными после решения BASIC. `make ci` оставлен для полностью решённого банка. Тематический test-* проверяет тему целиком, включая дополнительные задания.
+
 ## Как работать
 
 1. Откройте `docs/task.md`.
 2. Выберите тему, например `integer`.
 3. Откройте `internal/integer/integer.go`.
-4. Реализуйте функции с `TODO`.
+4. Реализуйте функции BASIC с `TODO`, остальные уровни — дополнительно.
 5. Запустите тесты конкретной темы.
 
 ```bash
@@ -106,6 +120,11 @@ make run-order
 make test-order
 ```
 
-## Важно
+## Сдача и CI
 
-В стартовой версии тесты падают специально. Это нормально: домашка считается готовой, когда `make ci` проходит локально и затем проходит в GitHub Actions.
+Fork → clone → ветка homework-2 → README и docs/task.md → небольшие решения и commits → локальные проверки → push → Pull Request → CI → ревью. Base PR: `rinatkh/homework_go_2`, ветка `main`; head: ваш fork, `homework-2`.
+
+Обычный push/PR запускает BASIC, общий fmt/vet, tidy и сборку всех 11 команд. После полного решения выполнить `make ci`, затем вручную запустить GitHub Actions через workflow_dispatch с profile=full. Полный профиль сохраняет unit/integration/race/coverage и package. CLI Examples и покрытие всего банка не блокируют частично решённый BASIC.
+
+В Git mod-check сравнивает go.mod/go.sum с HEAD. После применения патча сделайте commit инфраструктурных изменений перед полным CI. `make package` собирает Linux/amd64, `make build` — текущую платформу. Установку Go и Git workflow повторно изучать не требуется.
+

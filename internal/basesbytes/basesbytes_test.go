@@ -9,9 +9,9 @@ func TestDecimal42(t *testing.T) {
 		want int
 	}{
 		{name: "equals 42", got: Decimal42(), want: 42},
-		{name: "same as hex", got: Decimal42(), want: Hex2A()},
-		{name: "same as binary", got: Decimal42(), want: Binary101010()},
-		{name: "same as octal", got: Decimal42(), want: Octal52()},
+		{name: "same as hex", got: Decimal42(), want: 42},
+		{name: "same as binary", got: Decimal42(), want: 42},
+		{name: "same as octal", got: Decimal42(), want: 42},
 		{name: "arithmetic check", got: Decimal42() + 8, want: 50},
 	}
 
@@ -31,9 +31,9 @@ func TestHex2A(t *testing.T) {
 		want int
 	}{
 		{name: "equals 42", got: Hex2A(), want: 42},
-		{name: "same as decimal", got: Hex2A(), want: Decimal42()},
-		{name: "same as binary", got: Hex2A(), want: Binary101010()},
-		{name: "same as octal", got: Hex2A(), want: Octal52()},
+		{name: "same as decimal", got: Hex2A(), want: 42},
+		{name: "same as binary", got: Hex2A(), want: 42},
+		{name: "same as octal", got: Hex2A(), want: 42},
 		{name: "arithmetic check", got: Hex2A() * 2, want: 84},
 	}
 
@@ -53,9 +53,9 @@ func TestBinary101010(t *testing.T) {
 		want int
 	}{
 		{name: "equals 42", got: Binary101010(), want: 42},
-		{name: "same as decimal", got: Binary101010(), want: Decimal42()},
-		{name: "same as hex", got: Binary101010(), want: Hex2A()},
-		{name: "same as octal", got: Binary101010(), want: Octal52()},
+		{name: "same as decimal", got: Binary101010(), want: 42},
+		{name: "same as hex", got: Binary101010(), want: 42},
+		{name: "same as octal", got: Binary101010(), want: 42},
 		{name: "arithmetic check", got: Binary101010() - 2, want: 40},
 	}
 
@@ -75,9 +75,9 @@ func TestOctal52(t *testing.T) {
 		want int
 	}{
 		{name: "equals 42", got: Octal52(), want: 42},
-		{name: "same as decimal", got: Octal52(), want: Decimal42()},
-		{name: "same as hex", got: Octal52(), want: Hex2A()},
-		{name: "same as binary", got: Octal52(), want: Binary101010()},
+		{name: "same as decimal", got: Octal52(), want: 42},
+		{name: "same as hex", got: Octal52(), want: 42},
+		{name: "same as binary", got: Octal52(), want: 42},
 		{name: "arithmetic check", got: Octal52() / 2, want: 21},
 	}
 

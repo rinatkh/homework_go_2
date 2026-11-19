@@ -11,23 +11,23 @@ func ByteLen(s string) int {
 	return 0
 }
 
-// RuneLen возвращает количество Unicode-символов в строке.
+// RuneLen возвращает количество кодовых точек Unicode в строке.
 //
-// TODO: верните количество Unicode-символов в s. Кириллица и emoji должны считаться как отдельные символы.
+// TODO: верните количество Unicode code points в s. Составной emoji или буква с комбинируемым знаком могут содержать несколько rune.
 func RuneLen(s string) int {
 	return 0
 }
 
-// FirstRune возвращает первый Unicode-символ строки.
+// FirstRune возвращает первую кодовую точку Unicode строки.
 //
-// TODO: верните первый Unicode-символ s как строку. Для пустой строки верните "".
+// TODO: верните первую кодовую точку Unicode s как строку. Для пустой строки верните "".
 func FirstRune(s string) string {
 	return ""
 }
 
-// LastRune возвращает последний Unicode-символ строки.
+// LastRune возвращает последнюю кодовую точку Unicode строки.
 //
-// TODO: верните последний Unicode-символ s как строку. Для пустой строки верните "".
+// TODO: верните последнюю кодовую точку Unicode s как строку. Для пустой строки верните "".
 func LastRune(s string) string {
 	return ""
 }
@@ -67,16 +67,16 @@ func ContainsWord(text, word string) bool {
 	return false
 }
 
-// ReplaceFirstRune заменяет первый Unicode-символ строки.
+// ReplaceFirstRune заменяет первую кодовую точку Unicode строки.
 //
-// TODO: верните новую строку, заменив первый Unicode-символ s на r. Для пустой строки верните "".
+// TODO: верните новую строку, заменив первую кодовую точку Unicode s на r. Для пустой строки верните "".
 func ReplaceFirstRune(s string, r rune) string {
 	return ""
 }
 
-// ReverseRunes разворачивает строку по Unicode-символам.
+// ReverseRunes разворачивает строку по кодовым точкам Unicode.
 //
-// TODO: верните s в обратном порядке по Unicode-символам. Кириллица и emoji не должны повреждаться.
+// TODO: верните s в обратном порядке по кодовым точкам Unicode. Кириллица и emoji не должны повреждаться.
 func ReverseRunes(s string) string {
 	return ""
 }

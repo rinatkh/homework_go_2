@@ -3,6 +3,10 @@ package pointers
 import "testing"
 
 func TestValueOrDefault(t *testing.T) {
+	fixture0 := 10
+	fixture1 := 0
+	fixture2 := -10
+
 	tests := []struct {
 		name string
 		p    *int
@@ -10,9 +14,9 @@ func TestValueOrDefault(t *testing.T) {
 		want int
 	}{
 		{name: "nil pointer", p: nil, def: 5, want: 5},
-		{name: "regular value", p: NewInt(10), def: 5, want: 10},
-		{name: "zero value", p: NewInt(0), def: 5, want: 0},
-		{name: "negative value", p: NewInt(-10), def: 5, want: -10},
+		{name: "regular value", p: &fixture0, def: 5, want: 10},
+		{name: "zero value", p: &fixture1, def: 5, want: 0},
+		{name: "negative value", p: &fixture2, def: 5, want: -10},
 		{name: "negative default", p: nil, def: -1, want: -1},
 	}
 
@@ -279,16 +283,21 @@ func TestMaxPointer(t *testing.T) {
 }
 
 func TestIsNil(t *testing.T) {
+	fixture0 := 1
+	fixture1 := 0
+	fixture2 := -1
+	fixture3 := 100
+
 	tests := []struct {
 		name string
 		p    *int
 		want bool
 	}{
 		{name: "nil pointer", p: nil, want: true},
-		{name: "positive value", p: NewInt(1), want: false},
-		{name: "zero value", p: NewInt(0), want: false},
-		{name: "negative value", p: NewInt(-1), want: false},
-		{name: "new int", p: NewInt(100), want: false},
+		{name: "positive value", p: &fixture0, want: false},
+		{name: "zero value", p: &fixture1, want: false},
+		{name: "negative value", p: &fixture2, want: false},
+		{name: "new int", p: &fixture3, want: false},
 	}
 
 	for _, tt := range tests {
@@ -302,16 +311,21 @@ func TestIsNil(t *testing.T) {
 }
 
 func TestCopyValue(t *testing.T) {
+	fixture0 := 12
+	fixture1 := 0
+	fixture2 := -12
+	fixture3 := 100000
+
 	tests := []struct {
 		name string
 		p    *int
 		want int
 	}{
-		{name: "positive value", p: NewInt(12), want: 12},
-		{name: "zero value", p: NewInt(0), want: 0},
-		{name: "negative value", p: NewInt(-12), want: -12},
+		{name: "positive value", p: &fixture0, want: 12},
+		{name: "zero value", p: &fixture1, want: 0},
+		{name: "negative value", p: &fixture2, want: -12},
 		{name: "nil pointer", p: nil, want: 0},
-		{name: "large value", p: NewInt(100000), want: 100000},
+		{name: "large value", p: &fixture3, want: 100000},
 	}
 
 	for _, tt := range tests {

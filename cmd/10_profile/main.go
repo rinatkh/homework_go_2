@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/rinatsm/go-course/homework2/internal/profile"
+	"github.com/rinatkh/homework_go_2/internal/profile"
 )
 
 func main() {

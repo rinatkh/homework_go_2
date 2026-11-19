@@ -366,3 +366,20 @@ func TestExample(t *testing.T) {
 		t.Fatalf("Example()=%q, want %q", got, want)
 	}
 }
+
+func TestCountPagesBoundaries(t *testing.T) {
+	maxInt := int(^uint(0) >> 1)
+	for _, tc := range []struct {
+		name              string
+		total, size, want int
+	}{
+		{"negative items", -1, 10, 0}, {"negative page", 10, -1, 0},
+		{"max one page", maxInt, maxInt, 1}, {"max two pages", maxInt, maxInt - 1, 2},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			if got := CountPages(tc.total, tc.size); got != tc.want {
+				t.Fatalf("got %d want %d", got, tc.want)
+			}
+		})
+	}
+}

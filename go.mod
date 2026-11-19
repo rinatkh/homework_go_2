@@ -1,3 +1,3 @@
-module github.com/rinatsm/go-course/homework2
+module github.com/rinatkh/homework_go_2
 
-go 1.23
+go 1.22

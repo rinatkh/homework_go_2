@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/rinatsm/go-course/homework2/internal/float"
+	"github.com/rinatkh/homework_go_2/internal/float"
 )
 
 func main() {

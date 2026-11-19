@@ -6,6 +6,15 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      profile:
+        description: "Объём проверки: BASIC или весь банк"
+        type: choice
+        options: [basic, full]
+        default: basic
+
+env:
+  HOMEWORK_PROFILE: ${{ github.event_name == 'workflow_dispatch' && inputs.profile || 'basic' }}
 
 permissions:
   contents: read
@@ -26,6 +35,7 @@ jobs:
         with:
           go-version-file: go.mod
           cache: true
+          cache-dependency-path: go.mod
       - name: Download and verify modules
         run: make deps-check
       - name: Check go.mod and go.sum
@@ -42,6 +52,7 @@ jobs:
         with:
           go-version-file: go.mod
           cache: true
+          cache-dependency-path: go.mod
       - name: Check gofmt
         run: make fmt-check
 
@@ -56,6 +67,7 @@ jobs:
         with:
           go-version-file: go.mod
           cache: true
+          cache-dependency-path: go.mod
       - name: Run go vet
         run: make vet
 
@@ -70,10 +82,13 @@ jobs:
         with:
           go-version-file: go.mod
           cache: true
+          cache-dependency-path: go.mod
       - name: Run unit tests
-        run: make test-unit
+        run: |
+          if [ "$HOMEWORK_PROFILE" = full ]; then make test-unit; else make test-basic; fi
 
   integration-tests:
+    if: github.event_name == 'workflow_dispatch' && inputs.profile == 'full'
     name: test:integration
     runs-on: ubuntu-latest
     steps:
@@ -84,6 +99,7 @@ jobs:
         with:
           go-version-file: go.mod
           cache: true
+          cache-dependency-path: go.mod
       - name: Run integration tests
         run: make test-integration
 
@@ -98,10 +114,13 @@ jobs:
         with:
           go-version-file: go.mod
           cache: true
+          cache-dependency-path: go.mod
       - name: Run race tests
-        run: make test-race
+        run: |
+          if [ "$HOMEWORK_PROFILE" = full ]; then make test-race; else make test-basic-race; fi
 
   coverage:
+    if: github.event_name == 'workflow_dispatch' && inputs.profile == 'full'
     name: test:coverage
     runs-on: ubuntu-latest
     steps:
@@ -112,6 +131,7 @@ jobs:
         with:
           go-version-file: go.mod
           cache: true
+          cache-dependency-path: go.mod
       - name: Check coverage threshold
         run: make coverage-check
       - name: Upload coverage artifact
@@ -132,13 +152,14 @@ jobs:
         with:
           go-version-file: go.mod
           cache: true
+          cache-dependency-path: go.mod
       - name: Build all examples
         run: make build
 
   package:
     name: cd:package-artifact
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
+    if: github.event_name == 'workflow_dispatch' && inputs.profile == 'full'
     needs:
       - dependencies
       - format
@@ -156,6 +177,7 @@ jobs:
         with:
           go-version-file: go.mod
           cache: true
+          cache-dependency-path: go.mod
       - name: Package all binaries
         run: make package
       - name: Upload package artifact

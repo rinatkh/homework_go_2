@@ -357,3 +357,18 @@ func TestExample(t *testing.T) {
 		t.Fatalf("Example()=%q, want %q", got, want)
 	}
 }
+
+func TestRuneLenCodePoints(t *testing.T) {
+	for _, tc := range []struct {
+		name, s string
+		want    int
+	}{
+		{"combining mark", "e\u0301", 2}, {"ZWJ emoji", "👩\u200d💻", 3},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			if got := RuneLen(tc.s); got != tc.want {
+				t.Fatalf("got %d want %d", got, tc.want)
+			}
+		})
+	}
+}
